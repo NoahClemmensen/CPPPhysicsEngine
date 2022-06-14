@@ -1,32 +1,45 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "EventManager.h"
-#include "SFML/Graphics.hpp"
 #include <iostream>
 
 namespace sol {
-	class Solver
-	{
-	public:
-		sf::RenderWindow& Window;
-		sfev::EventManager& EventManager;
+    class Solver {
+    public:
+        sf::RenderWindow& Window;
+        sfev::EventManager& EventManager;
 
-		Solver(sf::RenderWindow& window, sfev::EventManager& evm) : Window(window), EventManager(evm) {}
+        Solver(sf::RenderWindow& window, sfev::EventManager& evm) : Window(window), EventManager(evm) {}
+        Solver() = delete;
 
-		void Run() {
-			Load();
-			while (Window.isOpen())
-			{
-				EventManager.processEvents();
-				Update(1.0);
-				Render();
-				Play();
-			}
-		}
+        void Run() {
+            Load();
+            sf::Clock clock;
+            while (Window.isOpen())
+            {
+                EventManager.processEvents();
+                sf::Time elapsed = clock.restart();
+                Update(elapsed.asSeconds());
+                Render();
+                Play();
+            }
+        }
 
-	private:
-		virtual void Update(float DeltaTime) = 0;
-		virtual void Load() = 0;
-		virtual void Render() = 0;
-		virtual void Play() = 0;
-	};
+        virtual void Update(float DeltaTime) {
+            //std::cout << "Update: " << DeltaTime;
+        }
+
+        virtual void Load() {
+            //std::cout << "Loaded";
+        }
+
+        virtual void Render() {
+            //Window.clear(sf::Color::Blue);
+            //Window.display();
+        }
+
+        virtual void Play() {
+
+        }
+    };
 }
