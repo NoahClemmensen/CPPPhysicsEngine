@@ -17,11 +17,14 @@ public:
     }
 
     virtual void Update(float DeltaTime) {
-        std::cout << " Update: " << DeltaTime;
+        // Update Logic
     }
 
     virtual void Render() {
         Window.clear(sf::Color::Blue);
+
+        // Draw stuff
+
         Window.display();
     }
 
