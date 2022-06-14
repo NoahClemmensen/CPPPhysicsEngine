@@ -7,33 +7,37 @@
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(400, 400), "Test");
-
     sfev::EventManager evm(window, true);
     evm.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {window.close(); });
-    evm.addKeyPressedCallback(sf::Keyboard::A, [&](const sf::Event&) {std::cout << "A Pressed" << std::endl; });
-    evm.addKeyReleasedCallback(sf::Keyboard::A, [&](const sf::Event&) {std::cout << "A released" << std::endl; });
-
-    evm.addMousePressedCallback(sf::Mouse::Button::Left, [&](const sf::Event&) {std::cout << "LEFT Mouse button pressed" << std::endl; });
-    evm.addMouseReleasedCallback(sf::Mouse::Button::Left, [&](const sf::Event&) {std::cout << "LEFT Mouse button released" << std::endl; });
-
-    evm.addMousePressedCallback(sf::Mouse::Button::Right, [&](const sf::Event&) {std::cout << "RIGHT Mouse button pressed" << std::endl; });
-    evm.addMouseReleasedCallback(sf::Mouse::Button::Right, [&](const sf::Event&) {std::cout << "RIGHT Mouse button released" << std::endl; });
-
-    sol::Solver solver(&evm, window);
-    __raise evm.Load();
-
-    while (window.isOpen())
-    {
-        evm.processEvents();
-        __raise evm.Update(1.0f);
-        __raise evm.Render();
-        __raise evm.Play();
-        
-
-        window.clear();
-        window.display();
-    }
+    
+    sol::Solver* solver = new Solver(window, evm);
+    solver->Run();
 }
+
+class Solver : public sol::Solver {
+public:
+    sf::RenderWindow& Window;
+    sfev::EventManager& EventManager;
+
+    Solver(sf::RenderWindow& window, sfev::EventManager& evm) : Window(window), EventManager(evm) {}
+
+    virtual void Update(float DeltaTime) {
+        std::cout << "Update " << DeltaTime;
+    }
+
+    virtual void Load() {
+
+    }
+
+    virtual void Render() {
+        Window.clear(sf::Color::Blue);
+        Window.display();
+    }
+
+    virtual void Play() {
+
+    }
+};
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

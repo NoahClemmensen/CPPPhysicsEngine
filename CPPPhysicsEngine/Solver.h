@@ -7,29 +7,26 @@ namespace sol {
 	class Solver
 	{
 	public:
-		sf::RenderWindow &Window;
+		sf::RenderWindow& Window;
+		sfev::EventManager& EventManager;
 
-		Solver(sfev::EventManager* pSource, sf::RenderWindow& window) : Window(window) {
-			__hook(&sfev::EventManager::Load, pSource, &Solver::Load);
-			__hook(&sfev::EventManager::Update, pSource, &Solver::Update);
-			__hook(&sfev::EventManager::Render, pSource, &Solver::Render);
-			__hook(&sfev::EventManager::Play, pSource, &Solver::Play);
+		Solver(sf::RenderWindow& window, sfev::EventManager& evm) : Window(window), EventManager(evm) {}
+
+		void Run() {
+			Load();
+			while (Window.isOpen())
+			{
+				EventManager.processEvents();
+				Update(1.0);
+				Render();
+				Play();
+			}
 		}
 
-		void Update(float DeltaTime) {
-			std::cout << DeltaTime;
-		}
-
-		void Load() {
-			std::cout << "Load";
-		}
-
-		void Render() {
-
-		}
-
-		void Play() {
-
-		}
+	private:
+		virtual void Update(float DeltaTime) = 0;
+		virtual void Load() = 0;
+		virtual void Render() = 0;
+		virtual void Play() = 0;
 	};
 }

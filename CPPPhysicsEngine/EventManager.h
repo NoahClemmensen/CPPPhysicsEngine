@@ -140,11 +140,6 @@ namespace sfev
     class EventManager
     {
     public:
-        __event void Update(float DeltaTime);
-        __event void Render();
-        __event void Load();
-        __event void Play();
-
         EventManager(sf::Window& window, bool use_builtin_helpers) :
             m_window(window),
             m_event_map(use_builtin_helpers)
