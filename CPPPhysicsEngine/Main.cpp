@@ -18,8 +18,11 @@ public:
             Window.close();
             });
 
-        geo::Circle circle(20.0f, { 200.0f, 200.0f }, sf::Color::White, 50);
-        Container.Add(&circle);
+        geo::Circle* circle = new geo::Circle(100.0f, { 200.0f, 200.0f }, sf::Color::White, 30);
+        geo::Circle* circle2 = new geo::Circle(50.0f, { 300.0f, 400.0f }, sf::Color::White, 30);
+
+        Container.Add(circle);
+        Container.Add(circle2);
 
         std::cout << "Loaded";
     }
@@ -58,7 +61,7 @@ public:
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(400, 400), "Test");
+    sf::RenderWindow window(sf::VideoMode(1080, 720), "Test");
     sfev::EventManager evm(window, true);
     evm.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {window.close(); });
     con::Container container;

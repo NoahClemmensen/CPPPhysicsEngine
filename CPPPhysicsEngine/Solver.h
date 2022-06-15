@@ -22,7 +22,8 @@ namespace sol {
             {
                 EventManager.processEvents();
                 sf::Time elapsed = clock.restart();
-                Update(elapsed.asSeconds());
+                float DeltaTime = elapsed.asSeconds();
+                Update(DeltaTime);
                 Render();
                 Play();
             }
