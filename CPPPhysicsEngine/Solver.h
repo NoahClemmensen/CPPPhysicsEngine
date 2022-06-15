@@ -2,14 +2,17 @@
 #include <SFML/Graphics.hpp>
 #include "EventManager.h"
 #include <iostream>
+#include "Container.h"
+#include "Geometry.h"
 
 namespace sol {
     class Solver {
     public:
         sf::RenderWindow& Window;
         sfev::EventManager& EventManager;
+        con::Container& Container;
 
-        Solver(sf::RenderWindow& window, sfev::EventManager& evm) : Window(window), EventManager(evm) {}
+        Solver(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container& container) : Window(window), EventManager(eventManager), Container(container) {}
         Solver() = delete;
 
         void Run() {
@@ -25,21 +28,9 @@ namespace sol {
             }
         }
 
-        virtual void Update(float DeltaTime) {
-            //std::cout << "Update: " << DeltaTime;
-        }
-
-        virtual void Load() {
-            //std::cout << "Loaded";
-        }
-
-        virtual void Render() {
-            //Window.clear(sf::Color::Blue);
-            //Window.display();
-        }
-
-        virtual void Play() {
-
-        }
+        virtual void Update(float DeltaTime) = 0;
+        virtual void Load() = 0;
+        virtual void Render() = 0;
+        virtual void Play() = 0;
     };
 }
