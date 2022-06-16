@@ -57,32 +57,3 @@ int main() {
   return 0;
 }
 ```
-
-## The Container
-**The container is a class which contains all the objects, circles, sounds, texts etc etc**
-
-You can use it like this inside your solvers Load() method
-```cpp
-virtual void Load() {
-  float radius = 50.0f;
-  sf::Vector2f position = { 20.0f, 30.0f };
-  int points = 50;
-  
-  geo::Circle* circle = new geo::Circle(radius, position, sf::Color::White, points);
-  
-  Container.Add(circle);
-}
-```
-
-Now this means if you want to draw all of the said circles inside the container, you can loop through all of the circles int the container
-```cpp
-virtual void Render() {
-  Window.clear(sf::Color::Black);
-  
-  for (int i = 0; i < Container.Circles.size(); i++) { // You can also loop through Container.Drawables
-    Window.draw(*Container.Circles[i]);
-  }
-  
-  Window.display();
-}
-```
