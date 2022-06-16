@@ -15,10 +15,6 @@ public:
     SolverChild(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container container, size_t subSteps) : sol::Solver(window, eventManager, container, subSteps) {}
 
     virtual void Load() {
-        EventManager.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {
-            Window.close();
-            });
-
         sf::Font font;
         if (!font.loadFromFile("OpenSans-Light.ttf"))
         {
@@ -27,7 +23,7 @@ public:
 
         geo::Text* text = new geo::Text(std::string("Hey"), {}, 24, sf::Color::Black, font);
 
-        geo::Circle* circle = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ 0.0f, -90.0f }, sf::Color::Red, 50);
+        geo::Circle* circle = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{0.0f, -90.0f}, sf::Color::Red, 50);
         geo::Circle* circle2 = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ -200.0f, 0.0f }, sf::Color::Blue, 50);
 
         geo::CircleConstraint* constraint = new geo::CircleConstraint(350.0f, Window.getView().getCenter(), sf::Color::Black, 50);
