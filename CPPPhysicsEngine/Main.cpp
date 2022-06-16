@@ -19,11 +19,13 @@ public:
             Window.close();
             });
 
-        geo::Circle* circle = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ 275.0f, 0.0f }, sf::Color::White, 50);
+        geo::Circle* circle = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ 0.0f, -90.0f }, sf::Color::Red, 50);
+        geo::Circle* circle2 = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ -200.0f, 0.0f }, sf::Color::Blue, 50);
 
         geo::CircleConstraint* constraint = new geo::CircleConstraint(350.0f, Window.getView().getCenter(), sf::Color::Black, 50);
 
         Container.Add(circle);
+        Container.Add(circle2);
         Container.Add(constraint);
 
         std::cout << "Loaded";
@@ -32,9 +34,12 @@ public:
     virtual void Update() {
         
         ApplyGravity();
-        
-        UpdatePositions();
+
         SolveConstraint();
+        SolveCollisions();
+
+        UpdatePositions();
+
         UpdateOpacity();
     }
 
@@ -88,6 +93,25 @@ public:
                     sf::Vector2f n = MathVec2f::setLength(toObj, constraint->Radius) - MathVec2f::setLength(toObj, circle->Radius + distance);
                     sf::Vector2f m = circle->Position + n;
                     circle->SetPositionVec2f(m);
+                }
+            }
+        }
+    }
+
+    void SolveCollisions() {
+        for (int i = 0; i < Container.Circles.size(); i++) {
+            geo::Circle* cir1 = Container.Circles[i];
+            for (int k = i+1; k < Container.Circles.size(); k++) {
+                geo::Circle* cir2 = Container.Circles[k];
+
+                sf::Vector2f collision = cir1->Position - cir2->Position;
+                float distance = MathVec2f::length(collision);
+
+                if (distance < cir1->Radius + cir2->Radius) {
+                    sf::Vector2f n = collision / distance;
+                    float delta = cir1->Radius + cir2->Radius - distance;
+                    cir1->SetPositionVec2f(cir1->Position += 0.5f * delta * n);
+                    cir2->SetPositionVec2f(cir2->Position -= 0.5f * delta * n);
                 }
             }
         }
