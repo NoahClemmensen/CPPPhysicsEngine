@@ -11,6 +11,8 @@ namespace sol {
         sf::RenderWindow& Window;
         sfev::EventManager& EventManager;
         con::Container& Container;
+        sf::Time TotalElapsedTime;
+        float DeltaTime = 0.0f;
 
         Solver(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container& container) : Window(window), EventManager(eventManager), Container(container) {}
         Solver() = delete;
@@ -22,14 +24,15 @@ namespace sol {
             {
                 EventManager.processEvents();
                 sf::Time elapsed = clock.restart();
-                float DeltaTime = elapsed.asSeconds();
-                Update(DeltaTime);
+                TotalElapsedTime += elapsed;
+                DeltaTime = elapsed.asSeconds();
+                Update();
                 Render();
                 Play();
             }
         }
 
-        virtual void Update(float DeltaTime) = 0;
+        virtual void Update() = 0;
         virtual void Load() = 0;
         virtual void Render() = 0;
         virtual void Play() = 0;

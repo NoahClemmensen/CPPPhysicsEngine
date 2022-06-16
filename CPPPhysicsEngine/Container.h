@@ -14,6 +14,7 @@ namespace con {
 		std::vector<sf::Sound*> Sounds;
 
 		std::vector<geo::Circle*> Circles;
+		std::vector<geo::CircleConstraint*> CircleConstraints;
 
 		Container() = default;
 
@@ -32,6 +33,11 @@ namespace con {
 		void Add(geo::Circle* cir) {
 			Circles.push_back(cir);
 			Drawables.push_back(cir);
+		}
+
+		void Add(geo::CircleConstraint* con) {
+			CircleConstraints.push_back(con);
+			Drawables.push_back(con);
 		}
 
 		void Remove(sf::Drawable* obj) {
