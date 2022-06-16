@@ -1,5 +1,6 @@
 # CPPPhysicsEngine
 ## A c++ physics engine intergrated with the verlet function
+## Special thanks
 *This was all just to learn and get started on c++ and learning to make physics stuff. This wouldn't not have been possible without [@johnBuffer](https://github.com/johnBuffer) and his videos. Go Check him out and his [videos](https://www.youtube.com/c/PezzzasWork)*
 
 *Thank you to [@johnBuffer](https://github.com/johnBuffer) for the event manager, [check it out here](https://github.com/johnBuffer/SFML-EventManager)*
