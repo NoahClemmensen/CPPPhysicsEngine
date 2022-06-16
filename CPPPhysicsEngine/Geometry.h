@@ -48,4 +48,18 @@ namespace geo {
 			setOrigin({ radius, radius });
 		}
 	};
+
+	class Text : public sf::Text {
+	public:
+		sf::Font Font;
+		sf::Vector2f Position;
+		sf::Color Color;
+		unsigned int CharacterSize;
+		std::string String;
+
+		Text(std::string string, sf::Vector2f position, unsigned int size, sf::Color color, sf::Font font) : Font(font), Position(position), Color(color), CharacterSize(size), String(string), sf::Text(string, font, size) {
+			setFillColor(Color);
+			setPosition(Position);
+		}
+	};
 }

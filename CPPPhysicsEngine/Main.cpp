@@ -19,11 +19,22 @@ public:
             Window.close();
             });
 
+        sf::Font font;
+        if (!font.loadFromFile("OpenSans-Light.ttf"))
+        {
+            throw std::exception();
+        }
+
+        geo::Text* text = new geo::Text(std::string("Hey"), {}, 24, sf::Color::Black, font);
+
         geo::Circle* circle = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ 0.0f, -90.0f }, sf::Color::Red, 50);
         geo::Circle* circle2 = new geo::Circle(50.0f, Window.getView().getCenter() + sf::Vector2f{ -200.0f, 0.0f }, sf::Color::Blue, 50);
 
         geo::CircleConstraint* constraint = new geo::CircleConstraint(350.0f, Window.getView().getCenter(), sf::Color::Black, 50);
 
+        
+        
+        Container.Add(text);
         Container.Add(circle);
         Container.Add(circle2);
         Container.Add(constraint);
@@ -55,6 +66,12 @@ public:
             Window.draw(*Container.Circles[i]);
         }
 
+        /*
+        for (int i = 0; i < Container.Texts.size(); i++) {
+            Window.draw(*Container.Texts[i]);
+        }
+        */
+
         Window.display();
     }
 
@@ -75,9 +92,10 @@ public:
     }
 
     void UpdateOpacity() {
-        int opacity = sin(TotalElapsedTime.asSeconds());
+        int opacity = Sin::sinRange(1.0f, 0.1f, 0.0f, TotalElapsedTime.asSeconds()) * 255;
         for (int i = 0; i < Container.Circles.size(); i++) {
             Container.Circles[i]->Color.a = opacity;
+            Container.Circles[i]->setFillColor(Container.Circles[i]->Color);
         }
     }
 
@@ -126,7 +144,7 @@ int main()
     evm.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {window.close(); });
     con::Container container;
     
-    size_t subSteps = 2;
+    size_t subSteps = 1;
 
     sol::Solver* solver = new SolverChild(window, evm, container, subSteps);
     solver->Run();

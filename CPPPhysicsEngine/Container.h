@@ -13,6 +13,7 @@ namespace con {
 		std::vector<sf::Texture*> Textures;
 		std::vector<sf::Sound*> Sounds;
 
+		std::vector<geo::Text*> Texts;
 		std::vector<geo::Circle*> Circles;
 		std::vector<geo::CircleConstraint*> CircleConstraints;
 
@@ -40,6 +41,11 @@ namespace con {
 			Drawables.push_back(con);
 		}
 
+		void Add(geo::Text* text) {
+			Texts.push_back(text);
+			Drawables.push_back(text);
+		}
+
 		void Remove(sf::Drawable* obj) {
 			Drawables.erase(std::remove(Drawables.begin(), Drawables.end(), obj));
 		}
@@ -54,6 +60,14 @@ namespace con {
 
 		void Remove(geo::Circle* cir) {
 			Circles.erase(std::remove(Circles.begin(), Circles.end(), cir));
+		}
+
+		void Remove(geo::CircleConstraint* con) {
+			CircleConstraints.erase(std::remove(CircleConstraints.begin(), CircleConstraints.end(), con));
+		}
+
+		void Remove(geo::Text* text) {
+			Texts.erase(std::remove(Texts.begin(), Texts.end(), text));
 		}
 	};
 }
