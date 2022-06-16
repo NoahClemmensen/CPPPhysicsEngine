@@ -12,7 +12,7 @@ public:
 
     sf::Vector2f Gravity = { 0.0f, 0.982f };
 
-    SolverChild(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container container) : sol::Solver(window, eventManager, container) {}
+    SolverChild(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container container, size_t subSteps) : sol::Solver(window, eventManager, container, subSteps) {}
 
     virtual void Load() {
         EventManager.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {
@@ -35,11 +35,12 @@ public:
         
         ApplyGravity();
 
-        SolveConstraint();
-        SolveCollisions();
+        for (int i = 0; i < SubSteps; i++) {
+            SolveConstraint();
+            SolveCollisions();
+        }
 
         UpdatePositions();
-
         UpdateOpacity();
     }
 
@@ -125,7 +126,9 @@ int main()
     evm.addEventCallback(sf::Event::EventType::Closed, [&](const sf::Event&) {window.close(); });
     con::Container container;
     
-    sol::Solver* solver = new SolverChild(window, evm, container);
+    size_t subSteps = 2;
+
+    sol::Solver* solver = new SolverChild(window, evm, container, subSteps);
     solver->Run();
 
     return 0;

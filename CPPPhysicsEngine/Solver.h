@@ -13,8 +13,9 @@ namespace sol {
         con::Container& Container;
         sf::Time TotalElapsedTime;
         float DeltaTime = 0.0f;
+        size_t SubSteps = 1;
 
-        Solver(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container& container) : Window(window), EventManager(eventManager), Container(container) {}
+        Solver(sf::RenderWindow& window, sfev::EventManager& eventManager, con::Container& container, size_t subSteps) : Window(window), EventManager(eventManager), Container(container), SubSteps(subSteps) {}
         Solver() = delete;
 
         void Run() {
